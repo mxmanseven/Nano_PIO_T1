@@ -68,22 +68,9 @@ void setup()
 
     while(!Serial) {}
 
-    // Wire.begin(
-    //     I2C_MASTER, 
-    //     0x00, 
-    //     I2C_PINS_16_17, 
-    //     I2C_PULLUP_EXT, 
-    //     400000);
-
     Wire.begin();
 
     delay(100);
-
-    int i = 12;
-    Serial.print("setup: ");
-    Serial.println(i);
-
-
 
     #if WHEEL_MANAGER_DEBUG == 1
     //wmTest();
@@ -110,7 +97,6 @@ int16_t secondsOffPace = 0;
 
 uint32_t i = 0;
 
-
 bool ledOn = false;
 void loop() {
 
@@ -129,6 +115,8 @@ void loop() {
 
     if(i++ == 0) em.startEnduro();
 
+    uint32_t microSecondsStart = millis();
+
     wm.AddTickRaw();
 
     em.getRaceData( 
@@ -136,6 +124,11 @@ void loop() {
         secondsOffPace);
 
     float distance = wm.GetTotalDistance();
+
+    uint32_t durationMicroSeconmds = millis() - microSecondsStart;
+    
+    Serial.print(F("durationMicroSeconmds: "));
+    Serial.println(durationMicroSeconmds);
 
     Serial.print(F("getRaceSeconds: "));
     Serial.println(timeKnh.getRaceSeconds());
@@ -155,14 +148,4 @@ void loop() {
 
     Serial.println("");
 
-
-    // eepromIic.write_byte(0, 27);
-    // delay(100);
-
-    // int readValue = 0;
-    // readValue = eepromIic.read_byte(0);
-    // Serial.println("eeprom " + String(readValue));
-
-    // int unixTime = timeKnh.getUnitxTime();
-    // Serial.println(String(unixTime)); 
 }
