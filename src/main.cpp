@@ -6,30 +6,37 @@ all the information needed to win!
 
    Hardware setup:
 Microcontroller:
-   Teensy 3.0 with NXP MK20d
+   Arduino Nano 238P
 RTC / EEPROM:
    ZS-042 break out board
    DS3231  RTC
    AT24C32 32kbit eeprom
 
 Connections:
-   ZS-042 is connected to the teensy with i2c.
-   IIC sac and sad lines are on pins 16 and 17
-   it is powered with 3.3v from the teensy
+   ZS-042 is connected to the arduino with i2c.
+   IIC sac and sad lines are on pins a4 and a5
+   it is powered with 5v from the teensy
    External pull up resistors are used.
    I think they are 5k.
-  
+
+    LCD
+    The remaining analog pins are used to drive the LCD.
+
+    Buttons:
+    Four buttons with hardware debouncing are on pins d2 - d5.
+    That is port D
+    74hc14 schmit trigger is used with an RC filter handel the debouncing.
+
+    Wheel Sensor:
+    d8
+    Port B
 */
-
-
-
 
 
 #include <Arduino.h>
 #include "display.h"
 #include "WheelManager.h"
 #include "SpeedInterval.h"
-//#include <LiquidCrystal.h>
 
 #include <Wire.h> //https://forum.pjrc.com/threads/21680-New-I2C-library-for-Teensy3
 //#include <i2c_t3.h>
@@ -53,16 +60,16 @@ EnduroManager em;
 
 // initialize the library by associating any needed LCD interface pin
 // with the arduino pin number it is connected to
-// const int rs = 7, en = 8, d4 = 9, d5 = 10, d6 = 11, d7 = 12;
-// LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+const int rs = PIN_A0, en = PIN_A1, d4 = PIN_A2, d5 = PIN_A3, d6 = PIN_A6, d7 = PIN_A7;
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
 void setup() 
 {
 
 //   // set up the LCD's number of columns and rows:
-//   lcd.begin(16, 2);
-//   // Print a message to the LCD.
-//   lcd.print("hello, world!");
+  lcd.begin(20, 4);
+  // Print a message to the LCD.
+  lcd.print("hello, world!");
 
     Serial.begin(115200);
 

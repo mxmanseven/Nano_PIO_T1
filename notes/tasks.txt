@@ -1,0 +1,24 @@
+
+Wire buttons on bread board.
+Program button handler:
+    pin change interupt
+    process buttons on change
+
+LCD:
+    wire it
+    add menu flow
+
+Wheel Manager
+    add wheel listener
+    use an external interupt to log wheel tick
+
+Enclosure:
+    make one
+    abs project box
+    extruded aluminum rectangle
+    project board layout
+
+Power Plan:
+    start with naive approach draining battery quickly
+    add sleep between inputs (wheel, button)
+    Add battery charger from 12v
