@@ -34,6 +34,8 @@ Connections:
 
 
 #include <Arduino.h>
+#include <avr/interrupt.h>
+
 #include "display.h"
 #include "WheelManager.h"
 #include "SpeedInterval.h"
@@ -90,13 +92,28 @@ void setup()
     #if ENDURO_MANAGER_DEBUG == 1
     EnduroManagerTest();
     #endif
-    
+
+    // use pin change interupt on port b for wheel sensor
+    // use pin change interupt on port d for buttons
+    PCICR |= 0b00000001;    // turn on port b
+    //PCICR |= 0b00000010;    // turn on port c
+    PCICR |= 0b00000100;    // turn on port d
+        
+    ISR(PCINT0_vect){}    // Port B, PCINT0 - PCINT7
+    //ISR(PCINT1_vect){}    // Port C, PCINT8 - PCINT14
+    //ISR(PCINT2_vect){}    // Port D, PCINT16 - PCINT23
 
     // pinMode(LED_BUILTIN, OUTPUT);
     // pinMode(19, INPUT_PULLUP); 
     // pinMode(20, INPUT_PULLUP); 
     // pinMode(21, INPUT_PULLUP); 
     // pinMode(22, INPUT_PULLUP); 
+}
+
+volatile bool pushed = false;
+ISR(PCINT0_vect)
+{
+    pushed = true;
 }
 
 float tenthMilesToPossiable = 0;
