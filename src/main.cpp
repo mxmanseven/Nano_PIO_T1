@@ -7,28 +7,70 @@
 volatile int pushed = 0;
 const byte LEDWAKE = 13;
 
-ISR (PCINT1_vect)
-{
-    // handle pin change interrupt for A0 to A5 here
 
+// four buttons on pins 2, 3, 4, 5
+// that is port D.
+const uint8_t BUTTON_PIN_COUNT = 4;
+uint8_t buttonPins[BUTTON_PIN_COUNT] = {2, 3, 4, 5};
+
+
+void SetupButtonPins()
+{
+    for(int i =  0; i < BUTTON_PIN_COUNT; i++)
+    {
+        uint8_t pin = buttonPins[i];   
+        pinMode(pin, INPUT);
+        digitalWrite (pin, HIGH);  // enable pull-up  
+        Serial.print("Set Pin as high input: ");
+        Serial.println(String(i));  
+        
+        delay(2000);
+    
+    }
+}
+
+void SetupButtonPinChangeInt()
+{   
+    // pin change interrupt
+    //PCMSK2 = PCINT18 | PCINT19 | PCINT20 | PCINT21;  // want pin D2-D5
+    
+    PCMSK2 = 0b00111100;  // want pin D2-D5
+    
+    Serial.print("PCMSK2: ");
+    Serial.println(String(PCMSK2));
+
+    delay(2000);
+
+    PCIFR  |= bit (PCIF2);   // clear any outstanding interrupts
+    PCICR  |= bit (PCIE2);   // enable pin change interrupts for  D2-D5
+    
+}
+
+
+ISR (PCINT2_vect)
+{
+    //PCINT2_vect -> port d -> pins d2 - d5.
     // toggle LED
 
     int value = ++pushed % 2;
-
     digitalWrite(LEDWAKE, value);
 }
 
 void setup () 
 {
+    Serial.begin(115200);
+
+    while(!Serial) {}
+
+    delay(5000);
+
     pinMode (LEDWAKE, OUTPUT);
-    digitalWrite (A0, HIGH);  // enable pull-up
     
     digitalWrite(LEDWAKE, HIGH);
 
-    // pin change interrupt
-    PCMSK1 |= PCINT8 | PCINT9 | PCINT10 | PCINT11;  // want pin A0
-    PCIFR  |= bit (PCIF1);   // clear any outstanding interrupts
-    PCICR  |= bit (PCIE1);   // enable pin change interrupts for A0 to A5
+    
+    SetupButtonPins();
+    SetupButtonPinChangeInt();
 
 }  // end of setup
 
