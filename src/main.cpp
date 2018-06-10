@@ -34,6 +34,8 @@ void SetupButtonPinChangeInt()
     // pin change interrupt
     //PCMSK2 = PCINT18 | PCINT19 | PCINT20 | PCINT21;  // want pin D2-D5
     
+    // the table at https://playground.arduino.cc/Learning/Pins
+    // was helpful to determin PCMSK2.
     PCMSK2 = 0b00111100;  // want pin D2-D5
     
     Serial.print("PCMSK2: ");
