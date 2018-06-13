@@ -2,7 +2,8 @@
 Wire buttons on bread board.
 Program button handler:
     ..pin change interupt
-    process buttons on change
+    ..process buttons on change
+        ..get pressed info
 
 LCD:
     wire it

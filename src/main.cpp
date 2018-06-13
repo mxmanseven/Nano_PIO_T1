@@ -67,12 +67,14 @@ const int rs = PIN_A0, en = PIN_A1, d4 = PIN_A2, d5 = PIN_A3, d6 = PIN_A6, d7 = 
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
 volatile int pushed = 0;
+volatile int buttonIntEventRaised = 0;
 
 ISR (PCINT2_vect)
 {
     // PCINT2_vect -> port d -> pins d2 - d5.
     // toggle LED
     int value = ++pushed % 2;
+    buttonIntEventRaised = 1;
     digitalWrite(LED_BUILTIN, value);
 }
 
@@ -110,6 +112,24 @@ uint32_t i = 0;
 
 void loop()
 {
+    if(buttonIntEventRaised > 0)
+    {
+        Serial.println("button read form main");
+
+        buttonIntEventRaised = 0;
+
+        buttons.ReadButtons();
+
+        
+        for(int i =  0; i < Buttons::PIN_COUNT; i++)
+        {
+            buttons.pins[i].pressedLong = false;
+            buttons.pins[i].pressedShort = false;
+        }
+    }
+
+
+
     // if(i++ == 0) em.startEnduro();
 
     // uint32_t microSecondsStart = millis();

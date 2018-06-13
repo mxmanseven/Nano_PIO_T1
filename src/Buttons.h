@@ -13,6 +13,10 @@ class ButtonInfo
     bool pressedShort;
     bool pressedLong;
     int8_t pin;
+    
+    static const int LONG_PRESS_MIN_THRESHOLD_MILLI_SECONDS = 2000;
+
+    String ToString();
 }; 
 
 class Buttons
@@ -31,8 +35,6 @@ class Buttons
     static ButtonInfo pins[PIN_COUNT];
 
     int ReadButtons();
-
-
 };
 
 #endif
