@@ -1,6 +1,6 @@
 #include <Arduino.h>
 
-    // with 
+    // with for teensy k20d mcu: 
     // board_f_cpu = 24000000
     // k: 125001752576.00
     // duration 4532
@@ -11,7 +11,7 @@ void CpuTest()
 {
     for (int ii = 0; ii < 5; ii++)
     {
-        uint32_t s = millis();
+        //uint32_t s = millis();
 
         double d = 2;
         double j = 2;
@@ -21,9 +21,8 @@ void CpuTest()
             k = d * j + i + k; 
         }
 
-
-        uint32_t e = millis();
-        uint32_t t = e - s;
+        // uint32_t e = millis();
+        // uint32_t t = e - s;
 
         // Serial.println("duration "  + String(t));
         // Serial.println("k: " + String(k));
