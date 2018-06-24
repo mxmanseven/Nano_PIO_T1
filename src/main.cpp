@@ -80,29 +80,36 @@ ISR (PCINT2_vect)
 
 void setup() 
 {
-    //   // set up the LCD's number of columns and rows:
-    lcd.begin(20, 4);
+    // //   // set up the LCD's number of columns and rows:
+    // lcd.begin(20, 4);
 
-    Serial.begin(115200);
-    while(!Serial) {}
-    Wire.begin();
+    // lcd.write("hi!");
 
-    delay(100);
+    // Serial.begin(115200);
+    // while(!Serial) {}
+    // Wire.begin();
 
-    buttons.Init(2, 3, 4, 5);
-    buttons.SetupPins();
+    // delay(100);
 
-    #if WHEEL_MANAGER_DEBUG == 1
-    //wmTest();
-    #endif
+    // buttons.Init(2, 3, 4, 5);
+    // buttons.SetupPins();
 
-    #if ROUTE_DEBUG == 1
-    RouteTest();
-    #endif
+    // #if WHEEL_MANAGER_DEBUG == 1
+    // //wmTest();
+    // #endif
+
+    // #if ROUTE_DEBUG == 1
+    // RouteTest();
+    // #endif
     
-    #if ENDURO_MANAGER_DEBUG == 1
-    EnduroManagerTest();
-    #endif
+    // #if ENDURO_MANAGER_DEBUG == 1
+    // EnduroManagerTest();
+    // #endif
+
+    
+  // initialize digital pin LED_BUILTIN as an output.
+  pinMode(9, OUTPUT);
+  //end blink 
 }
 
 float tenthMilesToPossiable = 0;
@@ -112,21 +119,34 @@ uint32_t i = 0;
 
 void loop()
 {
-    if(buttonIntEventRaised > 0)
-    {
-        Serial.println("button read form main");
 
-        buttonIntEventRaised = 0;
 
-        buttons.ReadButtons();
+//blink
+  digitalWrite(9, HIGH);   // turn the LED on (HIGH is the voltage level)
+  delay(1000);                       // wait for a second
+  digitalWrite(9, LOW);    // turn the LED off by making the voltage LOW
+  delay(1000);                       // wait for a second
+
+  // end blink
+
+
+    // if(buttonIntEventRaised > 0)
+    // {
+    //     Serial.println("button read form main");
+
+    //     buttonIntEventRaised = 0;
+
+    //     buttons.ReadButtons();
 
         
-        for(int i =  0; i < Buttons::PIN_COUNT; i++)
-        {
-            buttons.pins[i].pressedLong = false;
-            buttons.pins[i].pressedShort = false;
-        }
-    }
+    //     for(int i =  0; i < Buttons::PIN_COUNT; i++)
+    //     {
+    //         buttons.pins[i].pressedLong = false;
+    //         buttons.pins[i].pressedShort = false;
+    //     }
+    // }
+
+
 
 
 

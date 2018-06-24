@@ -24,3 +24,38 @@ Power Plan:
     start with naive approach draining battery quickly
     add sleep between inputs (wheel, button)
     Add battery charger from 12v
+
+
+    Stand-alone AVR
+
+oops, i ordered the wrong part. 
+I got the non-pico power version.
+that is the 328 PU, i want the 328P PU. I am calling avrdude with -F to force 
+otherwise upload would fail on chip signature missmatch.
+
+I flashed Lilypad (8 MHz) loader which uses the internal 8Mhz clock.
+
+I succeeded uploading to the stand alone avr with an ftdi cable
+as described in https://gammon.com.au/breadboard.
+
+FTDI cable          Target board
+Pin 1 (GND)  blk    Gnd (blue)
+Pin 2 (CTS)         not connected
+Pin 3 (Vcc)  red    +5V (red)
+Pin 4 (TxD   orng   Pin 2 (RxD) (white)
+Pin 5 (RxD)  yllw   Pin 3 (TxD) (orange)
+Pin 6 (RTS)  grn    To Reset via 0.1 uF capacitor (green)
+
+    Successful upload target board selection in Arduino IDE:
+Duemilanove
+LilyPad
+
+
+Successful programed with aarduino as isp with platform io!
+Using Nano as ISP running Arduino as ISP sketch.
+
+Arduino     atmega
+D10         1   RESET   PC6
+D11         17  MOSI    PB3
+D12         18  MISO    PB4
+D13         19  SCK     PB5
