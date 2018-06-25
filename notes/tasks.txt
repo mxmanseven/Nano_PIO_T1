@@ -11,8 +11,17 @@ LCD:
 
 Wheel Manager
     add wheel listener
+        https://electronics.stackexchange.com/questions/170171/hall-sensor-njk-5002-c-configuraion
         use similar set up form buttons
     use an external interupt to log wheel tick
+
+    guess 1:
+        BN  brown   input
+        BU  blue    Gnd
+        bk  black   output
+
+        1k Rpu between input and Gnd
+        output is high when no meg, low when meg
 
 Enclosure:
     make one
@@ -44,7 +53,7 @@ Pin 2 (CTS)         not connected
 Pin 3 (Vcc)  red    +5V (red)
 Pin 4 (TxD   orng   Pin 2 (RxD) (white)
 Pin 5 (RxD)  yllw   Pin 3 (TxD) (orange)
-Pin 6 (RTS)  grn    To Reset via 0.1 uF capacitor (green)
+Pin 6 (RTS)  grn    To Reset via 0.1 uF capacitor (black)
 
     Successful upload target board selection in Arduino IDE:
 Duemilanove

@@ -85,30 +85,28 @@ void setup()
 
     // lcd.write("hi!");
 
-    // Serial.begin(115200);
-    // while(!Serial) {}
-    // Wire.begin();
+         // wait for a second
+  digitalWrite(9, LOW);    // turn the LED off by making the voltage LOW
+  delay(200);
+  digitalWrite(9, HIGH);                  
+  delay(200);
+  digitalWrite(9, LOW);    // turn the LED off by making the voltage LOW
+  delay(200);
+  digitalWrite(9, HIGH);                  
+  delay(200);
 
-    // delay(100);
+    Serial.begin(19200);
+    while(!Serial) {}
+    Wire.begin();
 
-    // buttons.Init(2, 3, 4, 5);
-    // buttons.SetupPins();
+    delay(100);
 
-    // #if WHEEL_MANAGER_DEBUG == 1
-    // //wmTest();
-    // #endif
-
-    // #if ROUTE_DEBUG == 1
-    // RouteTest();
-    // #endif
-    
-    // #if ENDURO_MANAGER_DEBUG == 1
-    // EnduroManagerTest();
-    // #endif
-
+    buttons.Init(2, 3, 4, 5);
+    buttons.SetupPins();
     
   // initialize digital pin LED_BUILTIN as an output.
   pinMode(9, OUTPUT);
+  digitalWrite(9, HIGH);
   //end blink 
 }
 
@@ -123,28 +121,28 @@ void loop()
 
 //blink
   digitalWrite(9, HIGH);   // turn the LED on (HIGH is the voltage level)
-  delay(1000);                       // wait for a second
+  delay(10000);                       // wait for a second
   digitalWrite(9, LOW);    // turn the LED off by making the voltage LOW
-  delay(1000);                       // wait for a second
+  delay(10000);                       // wait for a second
 
   // end blink
 
+    Serial.println("hi");
+    if(buttonIntEventRaised > 0)
+    {
+        Serial.println("button read form main");
 
-    // if(buttonIntEventRaised > 0)
-    // {
-    //     Serial.println("button read form main");
+        buttonIntEventRaised = 0;
 
-    //     buttonIntEventRaised = 0;
-
-    //     buttons.ReadButtons();
+        buttons.ReadButtons();
 
         
-    //     for(int i =  0; i < Buttons::PIN_COUNT; i++)
-    //     {
-    //         buttons.pins[i].pressedLong = false;
-    //         buttons.pins[i].pressedShort = false;
-    //     }
-    // }
+        for(int i =  0; i < Buttons::PIN_COUNT; i++)
+        {
+            buttons.pins[i].pressedLong = false;
+            buttons.pins[i].pressedShort = false;
+        }
+    }
 
 
 
