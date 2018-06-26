@@ -5,6 +5,8 @@ Program button handler:
     ..process buttons on change
         ..get pressed info
 
+    input on digital pin 8, PB0, 14
+
 LCD:
     wire it
     add menu flow
@@ -15,8 +17,8 @@ Wheel Manager
         use similar set up form buttons
     use an external interupt to log wheel tick
 
-    guess 1:
-        BN  brown   input
+    NJK-5001C:
+        BN  brown   input Vcc
         BU  blue    Gnd
         bk  black   output
 

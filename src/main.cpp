@@ -38,6 +38,7 @@ Connections:
 
 #include "display.h"
 #include "WheelManager.h"
+#include "WheelListener.h"
 #include "SpeedInterval.h"
 
 #include <Wire.h> //https://forum.pjrc.com/threads/21680-New-I2C-library-for-Teensy3
@@ -57,6 +58,7 @@ Connections:
 
 TimeServicKnh timeKnh;
 WheelManager wm;
+WheelListener wl;
 EepromIic eepromIic;
 EnduroManager em;
 Buttons buttons;
@@ -68,6 +70,11 @@ LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
 volatile int pushed = 0;
 volatile int buttonIntEventRaised = 0;
+
+ISR (PCINT0_vect)
+{
+    wm.AddTickRaw();
+}
 
 ISR (PCINT2_vect)
 {
@@ -85,15 +92,7 @@ void setup()
 
     // lcd.write("hi!");
 
-         // wait for a second
-  digitalWrite(9, LOW);    // turn the LED off by making the voltage LOW
-  delay(200);
-  digitalWrite(9, HIGH);                  
-  delay(200);
-  digitalWrite(9, LOW);    // turn the LED off by making the voltage LOW
-  delay(200);
-  digitalWrite(9, HIGH);                  
-  delay(200);
+    digitalWrite(9, HIGH);
 
     Serial.begin(19200);
     while(!Serial) {}
@@ -103,6 +102,8 @@ void setup()
 
     buttons.Init(2, 3, 4, 5);
     buttons.SetupPins();
+
+    wl.Init();
     
   // initialize digital pin LED_BUILTIN as an output.
   pinMode(9, OUTPUT);
@@ -118,24 +119,17 @@ uint32_t i = 0;
 void loop()
 {
 
-
-//blink
-  digitalWrite(9, HIGH);   // turn the LED on (HIGH is the voltage level)
-  delay(10000);                       // wait for a second
-  digitalWrite(9, LOW);    // turn the LED off by making the voltage LOW
-  delay(10000);                       // wait for a second
-
   // end blink
 
-    Serial.println("hi");
     if(buttonIntEventRaised > 0)
     {
         Serial.println("button read form main");
 
+        Serial.println("ticks: " + String(wm.validTickCount));
+
         buttonIntEventRaised = 0;
 
         buttons.ReadButtons();
-
         
         for(int i =  0; i < Buttons::PIN_COUNT; i++)
         {
@@ -143,10 +137,6 @@ void loop()
             buttons.pins[i].pressedShort = false;
         }
     }
-
-
-
-
 
     // if(i++ == 0) em.startEnduro();
 
