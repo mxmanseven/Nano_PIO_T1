@@ -65,7 +65,7 @@ Buttons buttons;
 
 // initialize the library by associating any needed LCD interface pin
 // with the arduino pin number it is connected to
-const int rs = PIN_A0, en = PIN_A1, d4 = PIN_A2, d5 = PIN_A3, d6 = PIN_A4, d7 = PIN_A5;
+const int rs = 2, en = 3, d4 = 4, d5 = 5, d6 = 6, d7 = 7;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
 volatile int pushed = 0;
@@ -78,7 +78,6 @@ ISR (PCINT0_vect)
 
 ISR (PCINT1_vect)
 {
-    // PCINT2_vect -> port d -> pins d2 - d5.
     // toggle LED
     int value = ++pushed % 2;
     buttonIntEventRaised = 1;
@@ -88,9 +87,11 @@ ISR (PCINT1_vect)
 void setup() 
 {
     // //   // set up the LCD's number of columns and rows:
-    // lcd.begin(20, 4);
+    lcd.begin(20, 2);
 
-    // lcd.write("hi!");
+    //         12345678901234567890
+    lcd.write("09:01 P00:30 D001.34");
+    lcd.write("B NP 1 AS 12       A");
 
     digitalWrite(9, HIGH);
 
