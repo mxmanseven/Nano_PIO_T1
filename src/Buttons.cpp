@@ -51,10 +51,10 @@ void Buttons::SetupPins()
     {
         uint8_t pin = pins[i].pin;   
         pinMode(pin, INPUT);
-        digitalWrite (pin, HIGH);  // enable pull-up  
         Serial.print("Set Pin as high input: ");
         Serial.println(String(i));
-        delay(200);    
+        digitalWrite (pin, HIGH);  // enable pull-up
+        delay(200);
     }
 
     // pin change interrupt
@@ -62,15 +62,14 @@ void Buttons::SetupPins()
   // knh todo - update mask and port by selected pins
 
     // the table at https://playground.arduino.cc/Learning/Pins
-    // was helpful to determin PCMSK2.
-    PCMSK2 = 0b00111100;  // want pin D2-D5    
-    Serial.print("PCMSK2: ");
-    Serial.println(String(PCMSK2));
+    PCMSK1 = 0x0F;
+    Serial.print("PCMSK1: ");
+    Serial.println(String(PCMSK1));
 
     delay(200);
 
-    PCIFR  |= bit (PCIF2);   // clear any outstanding interrupts
-    PCICR  |= bit (PCIE2);   // enable pin change interrupts for  D2-D5    
+    PCIFR  |= bit (PCIF1);   // clear any outstanding interrupts
+    PCICR  |= bit (PCIE1);   // enable pin change interrupts for  D2-D5    
 }
 
 // the consumer of Buttons should not change down field because we depend on it here.

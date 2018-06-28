@@ -65,7 +65,7 @@ Buttons buttons;
 
 // initialize the library by associating any needed LCD interface pin
 // with the arduino pin number it is connected to
-const int rs = PIN_A0, en = PIN_A1, d4 = PIN_A2, d5 = PIN_A3, d6 = PIN_A6, d7 = PIN_A7;
+const int rs = PIN_A0, en = PIN_A1, d4 = PIN_A2, d5 = PIN_A3, d6 = PIN_A4, d7 = PIN_A5;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
 volatile int pushed = 0;
@@ -76,7 +76,7 @@ ISR (PCINT0_vect)
     wm.AddTickRaw();
 }
 
-ISR (PCINT2_vect)
+ISR (PCINT1_vect)
 {
     // PCINT2_vect -> port d -> pins d2 - d5.
     // toggle LED
@@ -100,15 +100,10 @@ void setup()
 
     delay(100);
 
-    buttons.Init(2, 3, 4, 5);
+    buttons.Init(PIN_A0, PIN_A1, PIN_A2, PIN_A3);
     buttons.SetupPins();
 
     wl.Init();
-    
-  // initialize digital pin LED_BUILTIN as an output.
-  pinMode(9, OUTPUT);
-  digitalWrite(9, HIGH);
-  //end blink 
 }
 
 float tenthMilesToPossiable = 0;
@@ -118,9 +113,6 @@ uint32_t i = 0;
 
 void loop()
 {
-
-  // end blink
-
     if(buttonIntEventRaised > 0)
     {
         Serial.println("button read form main");

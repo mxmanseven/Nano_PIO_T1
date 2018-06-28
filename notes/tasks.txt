@@ -70,3 +70,34 @@ D10         1   RESET   PC6
 D11         17  MOSI    PB3
 D12         18  MISO    PB4
 D13         19  SCK     PB5
+
+
+
+
+
+PB
+    0   whl 1 
+    1
+    2   ss
+    3   mosi
+    4   miso
+    5   sck
+    
+PC
+    0   btn 1
+    1   btn 2
+    2   btn 3
+    3   btn 4
+    4   SDA
+    5   SCL
+    6   RESET
+    
+PD
+    0   TX
+    1   RX
+    2   lcd 1
+    3   lcd 2
+    4   lcd 3
+    5   lcd 4
+    6   lcd 5
+    7   lcd 6
