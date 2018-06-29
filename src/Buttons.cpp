@@ -57,9 +57,8 @@ void Buttons::SetupPins()
         delay(200);
     }
 
-    // pin change interrupt
-  
-  // knh todo - update mask and port by selected pins
+    // pin change interrupt  
+    // knh todo - update mask and port by selected pins
 
     // the table at https://playground.arduino.cc/Learning/Pins
     PCMSK1 = 0x0F;

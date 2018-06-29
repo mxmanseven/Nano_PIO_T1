@@ -90,8 +90,10 @@ void setup()
     lcd.begin(20, 2);
 
     //         12345678901234567890
-    lcd.write("09:01 P00:30 D001.34");
-    lcd.write("B NP 1 AS 12       A");
+    lcd.print("09:01  P0:30 D06.34");
+    lcd.print("B NP 1 AS 12      A");
+
+    //lcd.println
 
     digitalWrite(9, HIGH);
 
@@ -105,6 +107,10 @@ void setup()
     buttons.SetupPins();
 
     wl.Init();
+
+    lcd.setCursor(0, 0);
+    lcd.blink();
+    lcd.cursor();
 }
 
 float tenthMilesToPossiable = 0;
@@ -112,8 +118,11 @@ int16_t secondsOffPace = 0;
 
 uint32_t i = 0;
 
+
+uint8_t lcdCoursorColumn = 0;
+
 void loop()
-{
+{ 
     if(buttonIntEventRaised > 0)
     {
         Serial.println("button read form main");
@@ -126,6 +135,28 @@ void loop()
         
         for(int i =  0; i < Buttons::PIN_COUNT; i++)
         {
+            Serial.println("Reading each button i: " + String(i));
+
+            // right button
+            if(i == 1 
+                && (buttons.pins[i].pressedShort
+                || buttons.pins[i].pressedLong))
+            {
+                lcdCoursorColumn = ((++lcdCoursorColumn) % 20);
+                Serial.println("right: " + String(lcdCoursorColumn));
+            }
+            
+            // left button
+            if(i == 0 
+                && (buttons.pins[i].pressedShort
+                || buttons.pins[i].pressedLong))
+            {
+                lcdCoursorColumn = ((--lcdCoursorColumn) % 20);
+                Serial.println("left: " + String(lcdCoursorColumn));
+            }
+    
+            lcd.setCursor(lcdCoursorColumn, 0);
+
             buttons.pins[i].pressedLong = false;
             buttons.pins[i].pressedShort = false;
         }
